@@ -1,8 +1,6 @@
-# OfxReader
+# OFXReader
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/ofx_reader`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Simple OFX Reader
 
 ## Installation
 
@@ -22,7 +20,46 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+ofx = OFXReader::Parser::OFX102.new(ofx_text)
+```
+
+#### Headers
+
+```ruby
+ofx.headers
+=> {
+  'OFXHEADER' => '100'
+  'DATA' => 'OFXSGML'
+  'VERSION' => '102'
+  'SECURITY' => 'TYPE1'
+  'ENCODING' => 'USASCII'
+  'CHARSET' => '1252'
+  'COMPRESSION' => 'NONE'
+  'OLDFILEUID' => 'NONE'
+  'NEWFILEUID' => 'NONE'
+}
+```
+
+#### Account
+
+```ruby
+ofx.account
+=> { bank_id: '1', account_id: '1' }
+```
+
+#### Transactions
+
+```ruby
+ofx.transactions
+=> [{
+  type: "DEBIT",
+  time: '2017-12-04 00:00:00 -0300'),
+  amount: -99.99,
+  fit_id: "00000000000000000000000000",
+  name: "TRANSACTION DESCRIPTION"
+}, ... ]
+```
 
 ## Development
 
