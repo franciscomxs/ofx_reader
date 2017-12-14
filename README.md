@@ -21,7 +21,8 @@ Or install it yourself as:
 ## Usage
 
 ```ruby
-ofx = OFXReader::Parser::OFX102.new(ofx_text)
+ofx = OFXReader.(ofx_text)
+=> #<OFXReader::Parser::Base:...
 ```
 
 #### Headers

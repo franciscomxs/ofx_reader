@@ -1,31 +1,19 @@
 module OFXReader
   module Parser
-    class OFX102 < OFXReader::Parser::Base
-
-      ACCOUNT_TYPES = [
-        "CHECKING",
-        "SAVINGS",
-        "CREDITCARD",
-        "CREDITLINE",
-        "INVESTMENT",
-        "MONEYMRKT",
-      ]
-
-      TRANSACTION_TYPES = [
-        'ATM', 'CASH', 'CHECK', 'CREDIT', 'DEBIT', 'DEP', 'DIRECTDEBIT',
-        'DIRECTDEP', 'DIV', 'FEE', 'INT', 'OTHER', 'PAYMENT', 'POS',
-        'REPEATPMT', 'SRVCHG', 'XFER',
-      ].inject({}) { |hash, type| hash.tap { |h| h[type] = type.downcase } }
+    class OFX102 < Struct.new(:ofx_body)
+      def parse
+        [account, transactions]
+      end
 
       def account
         {
-          bank_id: body.search('BANKACCTFROM BANKID').inner_text,
-          account_id: body.search('BANKACCTFROM ACCTID').inner_text,
+          bank_id: ofx_body.search('BANKACCTFROM BANKID').inner_text,
+          account_id: ofx_body.search('BANKACCTFROM ACCTID').inner_text,
         }
       end
 
       def transactions
-        body.search('BANKTRANLIST STMTTRN').map do |node|
+        ofx_body.search('BANKTRANLIST STMTTRN').map do |node|
           build_transaction(node)
         end
       end
