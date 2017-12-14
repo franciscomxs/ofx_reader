@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    ofx_reader (0.1.0)
+    ofx_reader (0.1.1)
       nokogiri (~> 1.8)
 
 GEM

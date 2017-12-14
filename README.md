@@ -63,6 +63,12 @@ ofx.transactions
 }, ... ]
 ```
 
+You can also read a .OFX file in console using the `ofx_reader` executable:
+
+```bash
+$ ofx_reader path/to/file.ofx
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
