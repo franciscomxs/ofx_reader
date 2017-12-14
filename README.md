@@ -50,13 +50,15 @@ ofx.account
 
 #### Transactions
 
+Will return a hash with all fields on .OFX file, using original names, as symbols:
+
 ```ruby
 ofx.transactions
 => [{
-  type: "DEBIT",
-  time: '2017-12-04 00:00:00 -0300'),
-  amount: -99.99,
-  fit_id: "00000000000000000000000000",
+  trntype: "DEBIT",
+  dtposted: '20171214000000[-3:EST]'),
+  trnamt: -99.99,
+  fitid: "00000000000000000000000000",
   name: "TRANSACTION DESCRIPTION"
 }, ... ]
 ```
