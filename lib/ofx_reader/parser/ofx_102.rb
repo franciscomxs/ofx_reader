@@ -33,13 +33,9 @@ module OFXReader
       private
 
       def build_transaction(node)
-        {
-          type: node.search('TRNTYPE').text,
-          time: Time.parse(node.search('DTPOSTED').text),
-          amount: node.search('TRNAMT').text.to_f,
-          fit_id: node.search('FITID').text,
-          name: node.search('NAME').text
-        }
+        node.children.map.with_object({}) do |field, hash|
+          hash[field.name.downcase.to_sym] = field.text
+        end
       end
     end
   end

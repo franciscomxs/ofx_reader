@@ -17,10 +17,10 @@ RSpec.describe OFXReader::Parser::OFX102 do
 
     it do
       expect(subject.first).to eq({
-        type: "DEBIT",
-        time: Time.parse('2009-02-09 00:00:00 -0500'),
-        amount: -98.91,
-        fit_id: "00000000000000000000000000",
+        trntype: "DEBIT",
+        dtposted: '20090209000000[-5:EST]',
+        trnamt: '-98.91',
+        fitid: "00000000000000000000000000",
         name: "GROCER A  Z"
       })
     end
