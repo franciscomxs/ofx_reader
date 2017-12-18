@@ -16,19 +16,24 @@ module OFXReader
 
       private
 
-      def parse_headers(headers)
-        headers.each_line.with_object({}) do |line, hash|
+      def parse_headers(header)
+        header.gsub("\r", "\n").each_line.with_object({}) do |line, hash|
           _, k, v = *line.match(/^(.*?):(.*?)\s*(\r?\n)*$/)
           hash[k.downcase.to_sym] = v unless v.nil?
         end
       end
 
       def parse_body(body)
-        body.gsub!(/>\s+</m, '><')
-        body.gsub!(/\s+</m, '<')
-        body.gsub!(/>\s+/m, '>')
-        body.gsub!(/<(\w+?)>([^<]+)/m, '<\1>\2</\1>')
-        parser.new(::Nokogiri::XML(body)).parse
+        doc = ::Nokogiri::XML(body)
+        if doc.errors.any?
+          body.gsub!(/>\s+</m, '><')
+          body.gsub!(/\s+</m, '<')
+          body.gsub!(/>\s+/m, '>')
+          body.gsub!(/<(\w+?)>([^<]+)/m, '<\1>\2</\1>')
+        end
+        doc = ::Nokogiri::XML(body)
+
+        parser.new(doc).parse
       end
 
       def parser

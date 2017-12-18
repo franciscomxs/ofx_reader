@@ -22,7 +22,10 @@ module OFXReader
 
       def build_transaction(node)
         node.children.map.with_object({}) do |field, hash|
-          hash[field.name.downcase.to_sym] = field.text
+          # Avoid Nokogiri::XML::Text
+          if field.is_a?(Nokogiri::XML::Element)
+            hash[field.name.downcase.to_sym] = field.text
+          end
         end
       end
     end
