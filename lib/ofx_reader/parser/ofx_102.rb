@@ -7,7 +7,22 @@ module OFXReader
       end
 
       def account
-        build(ofx_body.search('BANKACCTFROM'))
+        build_account(
+          build(ofx_body.search('BANKACCTFROM'))
+        )
+      end
+
+      def build_account(hash)
+        full_account = [
+          hash.dig(:branchid),
+          hash.dig(:acctid)
+        ].compact.join(' - ')
+
+        hash.merge!({
+          full_account: full_account
+        }) if hash.dig(:acctid).present?
+
+        hash
       end
 
       def transactions

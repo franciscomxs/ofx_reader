@@ -15,6 +15,7 @@ RSpec.describe OFXReader do
   it { expect(ofx.account[:bankid]).to eq('1234') }
   it { expect(ofx.account[:acctid]).to eq('1234567890') }
   it { expect(ofx.account[:accttype]).to eq('CHECKING') }
+  it { expect(ofx.account[:full_account]).to eq('1234567890') }
 
   it { expect(ofx.transactions.count).to eq(2) }
   it { expect(ofx.transactions.first[:trntype]).to eq('DEBIT') }
