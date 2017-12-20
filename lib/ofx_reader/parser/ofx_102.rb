@@ -18,6 +18,11 @@ module OFXReader
           hash.dig(:acctid)
         ].compact.join(' - ')
 
+        hash[:bankid] = hash[:bankid].
+          reverse[0..2].
+          reverse.
+          rjust(3, '0') if hash[:bankid].present?
+
         hash.merge!({
           full_account: full_account
         }) if hash.dig(:acctid).present?

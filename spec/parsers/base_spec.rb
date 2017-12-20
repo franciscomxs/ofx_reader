@@ -18,7 +18,7 @@ RSpec.describe OFXReader::Parser::Base do
 
     describe '#account' do
       it { expect(parser.account[:acctid]).to eq('000000') }
-      it { expect(parser.account[:bankid]).to eq('000000000') }
+      it { expect(parser.account[:bankid]).to eq('000') }
       it { expect(parser.account[:accttype]).to eq('CHECKING') }
     end
 
