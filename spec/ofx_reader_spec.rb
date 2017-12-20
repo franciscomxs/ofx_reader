@@ -7,8 +7,13 @@ RSpec.describe OFXReader do
     let(:sample) { file_fixture('sample.ofx').read }
 
     it 'is a shortcut to OFXReader::Parser::Base' do
-      expect(OFXReader::Parser::Base).to receive(:new).with(sample).once
+      expect(OFXReader::Parser::Base).to receive(:new).with(sample, strict: false).once
       OFXReader.(sample)
+    end
+
+    it 'is a shortcut to OFXReader::Parser::Base' do
+      expect(OFXReader::Parser::Base).to receive(:new).with(sample, strict: true).once
+      OFXReader.(sample, strict: true)
     end
   end
 end

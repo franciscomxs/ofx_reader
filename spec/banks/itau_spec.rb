@@ -12,8 +12,9 @@ RSpec.describe OFXReader do
   it { expect(ofx.headers[:oldfileuid]).to eq('NONE') }
   it { expect(ofx.headers[:newfileuid]).to eq('NONE') }
 
-  it { expect(ofx.account[:bank_id]).to eq('1234') }
-  it { expect(ofx.account[:account_id]).to eq('1234567890') }
+  it { expect(ofx.account[:bankid]).to eq('1234') }
+  it { expect(ofx.account[:acctid]).to eq('1234567890') }
+  it { expect(ofx.account[:accttype]).to eq('CHECKING') }
 
   it { expect(ofx.transactions.count).to eq(2) }
   it { expect(ofx.transactions.first[:trntype]).to eq('DEBIT') }

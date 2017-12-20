@@ -5,10 +5,12 @@ module OFXReader
       require 'time'
 
       attr_reader :header, :body
+      attr_reader :strict
       attr_reader :headers, :account, :transactions
 
-      def initialize(content)
+      def initialize(content, strict: false)
         content = content.encode("UTF-8", "ISO-8859-1")
+        @strict = strict
         @header, @body = content.dup.split(/(?=<OFX>)/, 2)
         @headers = parse_headers(header)
         @account, @transactions = parse_body(body)
@@ -33,7 +35,7 @@ module OFXReader
         end
         doc = ::Nokogiri::XML(body)
 
-        parser.new(doc).parse
+        parser.new(doc, strict).parse
       end
 
       def parser

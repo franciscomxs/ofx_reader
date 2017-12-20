@@ -17,8 +17,9 @@ RSpec.describe OFXReader::Parser::Base do
     end
 
     describe '#account' do
-      it { expect(parser.account[:account_id]).to eq('000000') }
-      it { expect(parser.account[:bank_id]).to eq('000000000') }
+      it { expect(parser.account[:acctid]).to eq('000000') }
+      it { expect(parser.account[:bankid]).to eq('000000000') }
+      it { expect(parser.account[:accttype]).to eq('CHECKING') }
     end
 
     describe '#transactions' do
@@ -44,7 +45,7 @@ RSpec.describe OFXReader::Parser::Base do
     it 'raise UnsupportedOFXVersionError for invalid OFX version' do
       expect {
         OFXReader::Parser::Base.new(sample)
-      }.to raise_error(UnsupportedOFXVersionError)
+      }.to raise_error(OFXReader::UnsupportedOFXVersionError)
     end
   end
 end

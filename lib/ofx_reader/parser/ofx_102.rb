@@ -1,32 +1,34 @@
 module OFXReader
   module Parser
-    class OFX102 < Struct.new(:ofx_body)
+    class OFX102 < Struct.new(:ofx_body, :strict)
       def parse
+        raise OFXReader::OFXWithoutBankAccountError if empty_account?
         [account, transactions]
       end
 
       def account
-        {
-          bank_id: ofx_body.search('BANKACCTFROM BANKID').inner_text,
-          account_id: ofx_body.search('BANKACCTFROM ACCTID').inner_text,
-        }
+        build(ofx_body.search('BANKACCTFROM'))
       end
 
       def transactions
         ofx_body.search('BANKTRANLIST STMTTRN').map do |node|
-          build_transaction(node)
+          build(node)
         end
       end
 
       private
 
-      def build_transaction(node)
+      def build(node)
         node.children.map.with_object({}) do |field, hash|
           # Avoid Nokogiri::XML::Text
           if field.is_a?(Nokogiri::XML::Element)
             hash[field.name.downcase.to_sym] = field.text
           end
         end
+      end
+
+      def empty_account?
+        (account.dig(:bankid).blank? && account.dig(:acctid).blank?) && strict
       end
     end
   end

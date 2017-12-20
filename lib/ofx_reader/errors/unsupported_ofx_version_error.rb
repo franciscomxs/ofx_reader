@@ -1,2 +1,4 @@
-class UnsupportedOFXVersionError < StandardError
+module OFXReader
+  class UnsupportedOFXVersionError < StandardError
+  end
 end
