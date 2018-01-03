@@ -11,7 +11,7 @@ if ARGV[0]
     pp ofx.account
     pp ofx.transactions
   else
-    puts "File doen't exist"
+    puts "File doesn't exist"
   end
 else
   puts "No file provided"
