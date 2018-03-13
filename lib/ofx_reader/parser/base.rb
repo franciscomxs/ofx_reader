@@ -28,12 +28,13 @@ module OFXReader
       def parse_body(body)
         doc = ::Nokogiri::XML(body)
         if doc.errors.any?
+          body.gsub!(/[?=\w](<\/\w+>)/, '')
           body.gsub!(/>\s+</m, '><')
           body.gsub!(/\s+</m, '<')
           body.gsub!(/>\s+/m, '>')
           body.gsub!(/<(\w+?)>([^<]+)/m, '<\1>\2</\1>')
+          doc = ::Nokogiri::XML(body)
         end
-        doc = ::Nokogiri::XML(body)
 
         parser.new(doc, strict).parse
       end
